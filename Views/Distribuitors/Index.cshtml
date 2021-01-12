@@ -1,0 +1,111 @@
+﻿@model NuntaNoastra_Buta_Camelia.ViewItem.DistribuitorIndexData
+
+@{
+    ViewData["Name"] = "Distribuitors";
+}
+<h2>Distribuitori</h2>
+<p>
+    <a asp-action="Create">Adaugă un nou distribuitor</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Numele distribuitorului</th>
+            <th>Adresa</th>
+            <th>Candle</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Distribuitors)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["DistribuitorID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.DistribuitorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Adress)
+                </td>
+
+                <td>
+                    @{
+                        foreach (var candle in item.DistribuitorCandles)
+                        {
+                            @candle.Candle.ID @: @candle.Candle.Name <br />
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@if (Model.Candles != null)
+{
+    <h3>Lumânările produse de firma selectată</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Nume</th>
+            <th>Distribuitor</th>
+            <th>Preț</th>
+        </tr>
+        @foreach (var item in Model.Candles)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["CandleID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.ActionLink("Select", "Index", new { CandleID = item.ID })
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Distribuitor
+                </td>
+                <td>
+                    @item.Price
+                </td>
+            </tr>
+        }
+    </table>
+}
+@if (Model.Orders != null)
+{
+    <h3>
+        Clienții care au comandat cartea selectată
+    </h3>
+    <table class="table">
+        <tr>
+            <th>Nume</th>
+            <th>data comenzii</th>
+        </tr>
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <td>
+                    @item.Customer.Name
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+            </tr>
+        }
+    </table>
+}

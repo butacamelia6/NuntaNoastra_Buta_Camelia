@@ -1,0 +1,26 @@
+﻿@model IEnumerable<NuntaNoastra_Buta_Camelia.Models.ViewItem.OrderGroup>
+@{
+    ViewData["Title"] = "Ordered Candle Statistics";
+}
+<h2>Ordered Candle Statistics</h2>
+<table>
+    <tr>
+        <th>
+            Order Date
+        </th>
+        <th>
+            Ordered Candle
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @item.CandleCount
+            </td>
+        </tr>
+    }
+</table>
